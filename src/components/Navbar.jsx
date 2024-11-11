@@ -143,7 +143,7 @@ const Navbar = () => {
         {isNavOpen && <CloseButton onClick={toggleNav}>&times;</CloseButton>}
         <ul className="navbar-nav ml-auto d-flex gap-3">
           <li className="nav-item text-light">
-            <Link className="nav-link" to="/aboutme" onClick={toggleNav}>About Me</Link>
+            <Link className="nav-link" to="/aboutme" onClick={toggleNav}>About</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/projects" onClick={toggleNav}>Projects</Link>

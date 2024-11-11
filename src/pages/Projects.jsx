@@ -471,9 +471,11 @@ const ModalContent = styled.div`
 `;
 
 const ModalTitle = styled.h2`
-  font-size: 31px;
+  font-size: 28px;
   margin-bottom: 1rem;
   font-weight: 600;
+  white-space:nowrap;
+  margin-top:2em;
 `;
 
 const ButtonsContainer = styled.div`
