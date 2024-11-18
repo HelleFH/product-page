@@ -238,15 +238,20 @@ const Products = () => {
 export default Products;
 
 const ProductsContainer = styled.section`
-  display: grid;
+  display: flex;
+  flex-direction:column;
+
   grid-template-columns: repeat(2, 1fr);  /* 6 equal columns */
-  margin: 7em auto 5em;
-  width: 100%;
-  max-width: 1170px;
+  margin:3em auto 5em;
+  width: 96%;
 
 
   /* Responsive layout - adjust the grid for larger screens */
   @media (min-width: 768px) {
+    display: grid;
+
+    max-width: 1100px;
+
     gap: 2em;  /* Gap between grid items */
 
     grid-template-columns: repeat(6, 1fr);  /* 6 equal columns for medium screens */
