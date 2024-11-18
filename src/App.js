@@ -5,7 +5,7 @@ import './index.css';
 
 import Navbar from './components/Navbar';
 import AboutMe from './pages/AboutMe';
-import Projects from './pages/Projects';
+import Products from './pages/Products';
 
 const App = () => {
   return (
@@ -13,8 +13,8 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Projects />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/" element={<Products />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/aboutme" element={<AboutMe />} />
 
         </Routes>

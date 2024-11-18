@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import projectsData from '../projects';
+import productsData from '../products';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSwipeable } from 'react-swipeable';
 import Footer from '../components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCopy } from '@fortawesome/free-solid-svg-icons';
-
-
 
 const fadeIn = keyframes`
   from {
@@ -32,20 +30,20 @@ const fadeOut = keyframes`
   }
 `;
 
-const Projects = () => {
-  const [projects, setProjects] = useState([]);
+const Products = () => {
+  const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
+  const [selectedProductIndex, setSelectedProductIndex] = useState(null);
   const [selectedColor, setSelectedColor] = useState('');
   const [showLoginDetails, setShowLoginDetails] = useState(false);
 
   useEffect(() => {
-    setProjects(projectsData);
+    setProducts(productsData);
   }, []);
 
   const handleClose = () => {
     setShowModal(false);
-    setSelectedProjectIndex(null);
+    setSelectedProductIndex(null);
     setShowLoginDetails(false);
   };
 
@@ -63,22 +61,22 @@ const Projects = () => {
   };
 
   const handleImageClick = (index, color) => {
-    setSelectedProjectIndex(index);
+    setSelectedProductIndex(index);
     setSelectedColor(color);
     setShowModal(true);
   };
   
 
   const handleNext = () => {
-    setSelectedProjectIndex((prevIndex) => (prevIndex + 1) % projects.length);
+    setSelectedProductIndex((prevIndex) => (prevIndex + 1) % products.length);
     setShowLoginDetails(false);
-    setSelectedColor(overlayColors[(selectedProjectIndex + 1) % projects.length]);
+    setSelectedColor(overlayColors[(selectedProductIndex + 1) % products.length]);
   };
 
   const handlePrev = () => {
-    setSelectedProjectIndex((prevIndex) => (prevIndex - 1 + projects.length) % projects.length);
+    setSelectedProductIndex((prevIndex) => (prevIndex - 1 + products.length) % products.length);
     setShowLoginDetails(false);
-    setSelectedColor(overlayColors[(selectedProjectIndex - 1 + projects.length) % projects.length]);
+    setSelectedColor(overlayColors[(selectedProductIndex - 1 + products.length) % products.length]);
   };
 
   const handlers = useSwipeable({
@@ -102,25 +100,35 @@ const Projects = () => {
   return (
     <>
       <div id="container">
-    
-        <ProjectsContainer className="projects">
-        <ProjectIntro className="w-100 font-weight-bold lh-base mt-5">
-Welcome to our page! Have a look at some of our great new products </ProjectIntro>
-          {projects.map((project, index) => (
-            <ProjectWrapper key={project.id} large={(index === 0 || index === 1)}>
-              <ImageWrapper onClick={() => handleImageClick(index, overlayColors[index % overlayColors.length])}>
-                <Image src={project.images[0]} alt={project.name} />
-                <Overlay className="overlay" color={overlayColors[index % overlayColors.length]}>
-                  <OverlayText className="text-uppercase">{project.name}</OverlayText>
-                </Overlay>
-              </ImageWrapper>
-            </ProjectWrapper>
-          ))}
-        </ProjectsContainer>
+
+      <ProductIntro className="w-100 font-weight-bold lh-base mt-5">
+      Welcome to our page! Have a look at some of our great new products </ProductIntro>
+      <ProductsContainer  id="products">
+        
+      {products.map((product, index) => (
+        <ProductWrapper
+          key={product.id}
+          firstRow={index < 3} // First row (index 0, 1, 2) will have 3 columns for the first two items
+          index={index}  // To decide if the product should span 2 or 3 columns
+        >
+
+          <ImageWrapper onClick={() => handleImageClick(index, overlayColors[index % overlayColors.length])}>
+            <Image src={product.images[0]} alt={product.name} />
+            <Overlay className="overlay" color={overlayColors[index % overlayColors.length]}>
+            <OverlayText>
+                <ProductName>{product.name}</ProductName>
+              </OverlayText>
+            </Overlay>
+          </ImageWrapper>
+        </ProductWrapper>
+      ))}
+    </ProductsContainer>
+
+ 
         <Footer />
 
-        {selectedProjectIndex !== null && (
-          <CustomModal show={showModal} onHide={handleClose} centered                 overlayColor={overlayColors[selectedProjectIndex % overlayColors.length]} // Pass overlayColor to CustomModal based on selectedProjectIndex
+        {selectedProductIndex !== null && (
+          <CustomModal show={showModal} onHide={handleClose} centered                 overlayColor={overlayColors[selectedProductIndex % overlayColors.length]} // Pass overlayColor to CustomModal based on selectedProductIndex
           >
             <CustomModalDialog>
               <ModalBody {...handlers}>
@@ -130,8 +138,8 @@ Welcome to our page! Have a look at some of our great new products </ProjectIntr
                 </ChevronLeft>
                 <ModalImageContainer backdropColor={selectedColor}>
                   <ModalImage
-                    src={`${projects[selectedProjectIndex].images[0]}`}
-                    alt={projects[selectedProjectIndex].name}
+                    src={`${products[selectedProductIndex].images[0]}`}
+                    alt={products[selectedProductIndex].name}
                     {...handlers}
                     backdropColor={selectedColor}
                   />
@@ -141,20 +149,20 @@ Welcome to our page! Have a look at some of our great new products </ProjectIntr
                 </ChevronRight>
                 <ModalText className='d-flex flex-1 flex-column p-4 justify-content-between'>
                   <ModalContent>
-                    <ModalTitle className="mb-4">{projects[selectedProjectIndex].name}</ModalTitle>
-                    <h5>{projects[selectedProjectIndex].descriptionHeader}</h5>
-                    <ProjectDescription>{projects[selectedProjectIndex].description}</ProjectDescription>
+                    <ModalTitle className="mb-4">{products[selectedProductIndex].name}</ModalTitle>
+                    <h5>{products[selectedProductIndex].descriptionHeader}</h5>
+                    <ProductDescription>{products[selectedProductIndex].description}</ProductDescription>
                   </ModalContent>
                
                   <ButtonsContainer>
-                    <ProjectButton
-                      href={projects[selectedProjectIndex].projectLink}
+                    <ProductButton
+                      href={products[selectedProductIndex].productLink}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       READ MORE 
-                      {projects[selectedProjectIndex].buttonText}
-                    </ProjectButton>
+                      {products[selectedProductIndex].buttonText}
+                    </ProductButton>
              
                   </ButtonsContainer>
                 </ModalText>
@@ -169,46 +177,46 @@ Welcome to our page! Have a look at some of our great new products </ProjectIntr
       centered
       dialogClassName="custom-modal"
       backdropClassName="custom-backdrop"
-      overlayColor={overlayColors[selectedProjectIndex % overlayColors.length]} 
+      overlayColor={overlayColors[selectedProductIndex % overlayColors.length]} 
 
     >
 
 <div className="custom-modal-content">
 
-          <Modal.Header style={{ backgroundColor: overlayColors[selectedProjectIndex % overlayColors.length] }} closeButton>
+          <Modal.Header style={{ backgroundColor: overlayColors[selectedProductIndex % overlayColors.length] }} closeButton>
           <Modal.Title>Login Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {projects[selectedProjectIndex]?.username && (
+        {products[selectedProductIndex]?.username && (
           <div>
-            <strong>User:</strong> {projects[selectedProjectIndex].username}
+            <strong>User:</strong> {products[selectedProductIndex].username}
             <CopyIcon
               icon={faCopy}
-              onClick={() => handleCopyToClipboard(projects[selectedProjectIndex].username)}
+              onClick={() => handleCopyToClipboard(products[selectedProductIndex].username)}
               title="Copy Username to Clipboard"
             />
             <br />
-            <strong>Password:</strong> {projects[selectedProjectIndex].password}
+            <strong>Password:</strong> {products[selectedProductIndex].password}
             <CopyIcon
               icon={faCopy}
-              onClick={() => handleCopyToClipboard(projects[selectedProjectIndex].password)}
+              onClick={() => handleCopyToClipboard(products[selectedProductIndex].password)}
               title="Copy Password to Clipboard"
             />
           </div>
         )}
-        {projects[selectedProjectIndex]?.adminUsername && (
+        {products[selectedProductIndex]?.adminUsername && (
           <div>
-            <strong>Admin:</strong> {projects[selectedProjectIndex].adminUsername}
+            <strong>Admin:</strong> {products[selectedProductIndex].adminUsername}
             <CopyIcon
               icon={faCopy}
-              onClick={() => handleCopyToClipboard(projects[selectedProjectIndex].adminUsername)}
+              onClick={() => handleCopyToClipboard(products[selectedProductIndex].adminUsername)}
               title="Copy Admin Username to Clipboard"
             />
             <br />
-            <strong>Password:</strong> {projects[selectedProjectIndex].adminPassword}
+            <strong>Password:</strong> {products[selectedProductIndex].adminPassword}
             <CopyIcon
               icon={faCopy}
-              onClick={() => handleCopyToClipboard(projects[selectedProjectIndex].adminPassword)}
+              onClick={() => handleCopyToClipboard(products[selectedProductIndex].adminPassword)}
               title="Copy Admin Password to Clipboard"
             />
           </div>
@@ -227,30 +235,48 @@ Welcome to our page! Have a look at some of our great new products </ProjectIntr
   );
 };
 
-export default Projects;
+export default Products;
 
-
-const ProjectsContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+const ProductsContainer = styled.section`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 6 equal columns */
+  margin: 7em auto 5em;
   width: 100%;
-  gap: 1em;
-  margin-bottom: 3em;
-  max-width:1175px;
-  margin:0 auto 5em;
+  max-width: 1170px;
+
+
+  /* Responsive layout - adjust the grid for larger screens */
+  @media (min-width: 768px) {
+    gap: 2em;  /* Gap between grid items */
+
+    grid-template-columns: repeat(6, 1fr);  /* 6 equal columns for medium screens */
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(6, 1fr);  /* 6 equal columns for larger screens */
+  }
 `;
 
-const ProjectWrapper = styled.div`
+// Individual product wrapper in the grid
+const ProductWrapper = styled.div`
   position: relative;
-  height: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 96vw;
-  margin: 0 auto;
+  transition: transform 0.3s ease-in-out;
+    margin-bottom:2em;
 
+
+  /* First two products span 3 columns each */
+  grid-column: ${(props) => (props.firstRow && props.index < 2 ? "span 3" : "auto")};
+
+  /* Subsequent products span 2 columns */
   @media (min-width: 768px) {
-    max-width: 375px;
+      margin-bottom:0em;
+
+    grid-column: ${(props) =>
+      props.index >= 2 ? "span 2" : props.firstRow && props.index < 2 ? "span 3" : "auto"};
   }
+
+
 `;
 
 const LoginButton = styled.a`
@@ -273,17 +299,23 @@ const LoginButton = styled.a`
   }
 `;
 
-const ProjectIntro = styled.h5`
+const ProductIntro = styled.h5`
   font-weight: 700 !important;
   margin-bottom: 2.5em;
   padding-left: 0.5em;
-  max-width: 900px;
+place-self:center;
+  max-width:1200px;
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
   cursor: pointer;
   overflow: hidden;
+    width: 100%;
+    display:flex;
+      align-items:center;
+
+
 `;
 
 const Image = styled.img`
@@ -296,6 +328,11 @@ const Image = styled.img`
   }
 `;
 
+const ProductName = styled.span`
+  font-size: 1.8rem; /* Larger font size for product name */
+  font-weight: bold;
+  font-family:'Istok Web';
+`;
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -421,7 +458,7 @@ const ModalImage = styled.img`
   }
 `;
 
-const ProjectDescription = styled.p`
+const ProductDescription = styled.p`
   height: 180px;
 
   @media (min-width: 1050px) {
@@ -485,7 +522,7 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `;
 
-const ProjectButton = styled.a`
+const ProductButton = styled.a`
   display: inline-block;
   background-color: #fff;
   color: #333 !important;

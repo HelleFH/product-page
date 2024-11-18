@@ -146,7 +146,7 @@ const Navbar = () => {
             <Link className="nav-link" to="/aboutme" onClick={toggleNav}>About</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/projects" onClick={toggleNav}>Projects</Link>
+            <Link className="nav-link" to="/products" onClick={toggleNav}>Products</Link>
           </li>
           <li className="nav-item">
           <a className="nav-link" href="https://www.linkedin.com/in/helle-fruergaard-577763112/" >
