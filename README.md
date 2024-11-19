@@ -1,4 +1,4 @@
-## Project Name & Pitch
+## Product Page
 
 #### Description:
 This is a simple portfolio page/image gallery with colored overlays and a modal carousel when an image is clicked. 
