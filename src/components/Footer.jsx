@@ -42,6 +42,7 @@ const FooterContainer = styled.footer`
   bottom: 0;
   left: 0;
   gap:1em;
+  min-height:10vh;
 
   h3 {
     font-size: 25px;

@@ -8,6 +8,8 @@ body {
   
 }
 #container {margin:0 auto;
+
+
 }
 
 .custom-modal .modal-content {
@@ -15,8 +17,9 @@ body {
   margin: 0 auto;
 }
 #root {
-
+  min-height: 100vh;
   margin: 0 auto;
+
 }
 
 html {

@@ -5,7 +5,8 @@ import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../components/Footer';
 const AboutMe = () => {
   return (
-    <div>
+    <PageContainer>
+
       <AboutMeWrapper >
         <AboutMeContent className='pt-4 mt-4'>
           <div className='d-flex flex-column align-items-center gap-2'>
@@ -23,14 +24,21 @@ const AboutMe = () => {
       </AboutMeWrapper>
       <Footer />
 
-    </div>
+      </PageContainer>
   );
 };
 
 export default AboutMe;
 
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
 const AboutMeWrapper = styled.div`
   max-width: 1000px;
+  flex:1;
   margin: 0 auto;
   padding:0 1.2em;
   margin-bottom:5em;
